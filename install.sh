@@ -22,9 +22,10 @@ unzip -o snell-server-v4.0.1-linux-$ARCHITECTURE.zip
 
 echo -e "[Unit]\nDescription=snell server\n[Service]\nUser=root\nWorkingDirectory=/root\nExecStart=/root/snell-server\nRestart=always\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/snell.service
 y | ./snell-server
+echo -e "\nobfs = http" >> ./snell-server.conf
 systemctl start snell
 systemctl enable snell			# start service
 
 echo
 echo "Copy the following line to surge"			# print profile
-echo "$(curl -s ipinfo.io/city) = snell, $(curl -s ipinfo.io/ip), $(cat snell-server.conf | grep -i listen | cut --delimiter=':' -f2),psk=$(grep 'psk' snell-server.conf | cut -d= -f2 | tr -d ' '), version=4, tfo=true"
+echo "$(curl -s ipinfo.io/city) = snell, $(curl -s ipinfo.io/ip), $(cat snell-server.conf | grep -i listen | cut --delimiter=':' -f2),psk=$(grep 'psk' snell-server.conf | cut -d= -f2 | tr -d ' '), obfs = http, version=4, tfo=true"
