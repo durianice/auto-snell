@@ -22,6 +22,7 @@ wget -c https://dl.nssurge.com/snell/snell-server-$VERSION-linux-$ARCHITECTURE.z
 unzip -o snell-server-$VERSION-linux-$ARCHITECTURE.zip
 
 echo -e "[Unit]\nDescription=snell server\n[Service]\nUser=root\nWorkingDirectory=/root\nExecStart=/root/snell-server\nRestart=always\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/snell.service
+systemctl daemon-reload
 y | ./snell-server
 echo -e "\nobfs = http" >> ./snell-server.conf
 systemctl start snell
